@@ -1,19 +1,73 @@
+import { IDataUser } from "../interfaces/user.interface";
 import prisma from "../utils/prisma";
 
-type ICreateUser = {
-  username: string;
-  name: string;
-  password: string;
+export const insertUser = async (data: IDataUser) => {
+  return await prisma.user.create({
+    data,
+    select: {
+      id: true,
+      name: true,
+      username: true,
+      createdAt: true,
+      updatedAt: true,
+    },
+  });
 };
 
-export const insertUser = async (data: ICreateUser) => {
-  const { username, name, password } = data;
+export const findAllUser = async () => {
+  return await prisma.user.findMany({
+    select: {
+      id: true,
+      name: true,
+      username: true,
+      createdAt: true,
+      updatedAt: true,
+    },
+  });
+};
 
-  return await prisma.user.create({
-    data: {
-      username,
-      name,
-      password,
+export const findOneUser = async (id?: number) => {
+  return await prisma.user.findUniqueOrThrow({
+    where: {
+      id,
+    },
+    select: {
+      id: true,
+      name: true,
+      username: true,
+      createdAt: true,
+      updatedAt: true,
+    },
+  });
+};
+
+export const deleteOneUser = async (id?: number) => {
+  return await prisma.user.delete({
+    where: {
+      id,
+    },
+    select: {
+      id: true,
+      name: true,
+      username: true,
+      createdAt: true,
+      updatedAt: true,
+    },
+  });
+};
+
+export const updateOneUser = async (id: number, data: IDataUser) => {
+  return await prisma.user.update({
+    where: {
+      id,
+    },
+    data,
+    select: {
+      id: true,
+      name: true,
+      username: true,
+      createdAt: true,
+      updatedAt: true,
     },
   });
 };
